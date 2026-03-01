@@ -80,6 +80,10 @@ func collect(cfg *config.Config) {
 		if err == nil && url != "" {
 			active.URL = url
 		}
+		tabs, err := monitor.GetChromeTabTitles(active.HWND)
+		if err == nil && len(tabs) > 0 {
+			active.Tabs = tabs
+		}
 	}
 
 	// バックグラウンドウィンドウ取得 + フィルタ
@@ -93,6 +97,10 @@ func collect(cfg *config.Config) {
 			url, err := monitor.GetChromeURL(w.HWND)
 			if err == nil && url != "" {
 				w.URL = url
+			}
+			tabs, err := monitor.GetChromeTabTitles(w.HWND)
+			if err == nil && len(tabs) > 0 {
+				w.Tabs = tabs
 			}
 		}
 		bg = append(bg, w)
