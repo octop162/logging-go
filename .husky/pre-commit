@@ -1,0 +1,11 @@
+#!/bin/sh
+# gofmt check
+UNFORMATTED=$(gofmt -l .)
+if [ -n "$UNFORMATTED" ]; then
+  echo "以下のファイルがgofmtされていません:"
+  echo "$UNFORMATTED"
+  exit 1
+fi
+
+# golangci-lint
+golangci-lint run
