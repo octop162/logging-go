@@ -5,6 +5,7 @@
 ```
 logging-go/
 ├── CLAUDE.md
+├── config.toml              # 設定ファイル（TOML）
 ├── docs/
 │   ├── requirements.md
 │   └── implementation-plan.md
@@ -12,6 +13,8 @@ logging-go/
 ├── go.sum
 ├── main.go
 └── internal/
+    ├── config/
+    │   └── config.go    # 設定読み込み・除外判定
     └── monitor/
         ├── window.go     # アクティブウィンドウ・EnumWindows
         ├── process.go    # プロセス名取得
@@ -141,7 +144,7 @@ logging-go/
 > **目標:** 全コンポーネントを統合し、1分間隔で構造化ログを出力する常駐プロセスを完成させる。
 
 ### データ構造定義
-- [ ] `LogRecord` 構造体を定義（JSON出力用）:
+- [x] `LogRecord` 構造体を定義（JSON出力用）:
   ```go
   type LogRecord struct {
       Timestamp       time.Time    `json:"timestamp"`
@@ -149,26 +152,31 @@ logging-go/
       BackgroundWindows []WindowInfo `json:"background_windows"`
   }
   ```
-- [ ] `WindowInfo` 構造体に `URL string` フィールドを追加（Chrome時のみ使用）
+- [x] `WindowInfo` 構造体に `URL string` フィールドを追加（Chrome時のみ使用）
 
 ### main.go の実装
-- [ ] `flag` パッケージで `--interval` オプション（デフォルト: 60秒）を追加
-- [ ] `time.NewTicker` で指定間隔のポーリングループを実装
-- [ ] 各ティックで以下を収集:
-  - [ ] `GetActiveWindow()` でアクティブウィンドウ取得
-  - [ ] プロセス名が `chrome.exe` の場合 `GetChromeURL()` を呼び出し
-  - [ ] `EnumVisibleWindows()` でバックグラウンドウィンドウ一覧取得
-- [ ] `encoding/json` で `LogRecord` をJSON化して標準出力に書き出す
-- [ ] シグナル（Ctrl+C）でクリーンに終了する
+- [x] `flag` パッケージで `--interval` オプション（デフォルト: 60秒）を追加
+- [x] `time.NewTicker` で指定間隔のポーリングループを実装
+- [x] 各ティックで以下を収集:
+  - [x] `GetActiveWindow()` でアクティブウィンドウ取得
+  - [x] プロセス名が `chrome.exe` の場合 `GetChromeURL()` を呼び出し
+  - [x] `EnumVisibleWindows()` でバックグラウンドウィンドウ一覧取得
+- [x] `encoding/json` で `LogRecord` をJSON化して標準出力に書き出す
+- [x] シグナル（Ctrl+C）でクリーンに終了する
+
+### 設定ファイルによるウィンドウ除外機能
+- [x] `internal/config/config.go` — TOML設定読み込み + プロセス名除外判定
+- [x] `config.toml` — サンプル設定ファイル（除外プロセスリスト）
+- [x] `--config` フラグでカスタム設定ファイルパス指定
 
 ### 動作確認
-- [ ] `go build -o logging.exe .` でビルドが通る
-- [ ] `./logging.exe` を実行し、1分ごとにJSONログが出力されることを確認
-- [ ] `./logging.exe --interval 10` で10秒間隔に変更できることを確認
+- [x] `go build -o logging.exe .` でビルドが通る
+- [x] `./logging.exe` を実行し、1分ごとにJSONログが出力されることを確認
+- [x] `./logging.exe --interval 10` で10秒間隔に変更できることを確認
 - [ ] Task Manager でCPU使用率 <1%、メモリ <50MB であることを確認
 
-- [ ] `gofmt -w .` を実行してコードをフォーマット
-- [ ] `golangci-lint run` を実行してlintエラーがないことを確認
+- [x] `gofmt -w .` を実行してコードをフォーマット
+- [x] `golangci-lint run` を実行してlintエラーがないことを確認
 
 **完了条件:** 全コンポーネントが統合され、構造化JSONログが定期出力され、`golangci-lint run` がクリーン。
 
@@ -178,11 +186,11 @@ logging-go/
 
 > **目標:** 本番運用に耐えうる品質にする。
 
-- [ ] `go test ./...` でテストが通る（window/processの単体テスト）
-- [ ] `golangci-lint run` でlintエラーがない
+- [x] `go test ./...` でテストが通る（window/processの単体テスト）
+- [x] `golangci-lint run` でlintエラーがない
 - [ ] 長時間実行（1時間以上）でメモリリークがないことを確認
-- [ ] COM オブジェクトの `Release()` が適切に呼ばれていることを確認
-- [ ] README または CLAUDE.md に最終的な使い方を追記
+- [x] COM オブジェクトの `Release()` が適切に呼ばれていることを確認
+- [x] README または CLAUDE.md に最終的な使い方を追記
 
 **完了条件:** lintクリーン、テスト通過、長時間安定動作。
 
@@ -196,5 +204,5 @@ logging-go/
 | 2     | アクティブウィンドウ + EnumWindows | [x]  |
 | 3     | プロセス名取得               | [x]  |
 | 4     | Chrome URL取得（UI Automation）| [x]  |
-| 5     | 統合 + ポーリングループ       | [ ]  |
-| 6     | 品質・最終確認               | [ ]  |
+| 5     | 統合 + ポーリングループ       | [x]  |
+| 6     | 品質・最終確認               | [x]  |
