@@ -99,32 +99,40 @@ logging-go/
 > **目標:** Chromeがフォアグラウンドにあるとき、現在のタブのURLを取得できる。
 
 ### vtable定義
-- [ ] `IUIAutomation` インターフェースのvtableを手動定義
+- [x] `IUIAutomation` インターフェースのvtableを手動定義
   - CLSID: `{FF48DBA4-60EF-4201-AA87-54103EEF594E}`
   - IID: `{30CBE57D-D9D0-452A-AB13-7AC5AC4825EE}`
-- [ ] `IUIAutomationElement` インターフェースのvtable定義
-- [ ] `IUIAutomationCondition` インターフェースのvtable定義
-- [ ] `IUIAutomationValuePattern` インターフェースのvtable定義
+- [x] `IUIAutomationElement` インターフェースのvtable定義
+- [x] `IUIAutomationCondition` インターフェースのvtable定義
+- [x] `IUIAutomationValuePattern` インターフェースのvtable定義
 
 ### chrome.go の実装
-- [ ] `ole.CoInitializeEx` でCOM初期化（`COINIT_APARTMENTTHREADED`）
-- [ ] `ole.CoCreateInstance` で `CUIAutomation` インスタンス生成
-- [ ] `IUIAutomation.ElementFromHandle` でChromeウィンドウのルート要素取得
-- [ ] `IUIAutomation.CreatePropertyCondition` でEdit要素の検索条件作成（ControlType = Edit）
-- [ ] `IUIAutomationElement.FindFirst` でアドレスバー要素を検索
-- [ ] `IUIAutomationElement.GetCurrentPattern` で `ValuePattern` を取得
-- [ ] `IUIAutomationValuePattern.CurrentValue` でURLを取得
-- [ ] 関数 `GetChromeURL(hwnd windows.HWND) (string, error)` としてエクスポート
+- [x] `ole.CoInitializeEx` でCOM初期化（`COINIT_APARTMENTTHREADED`）
+- [x] `ole.CoCreateInstance` で `CUIAutomation` インスタンス生成
+- [x] `IUIAutomation.ElementFromHandle` でChromeウィンドウのルート要素取得
+- [x] `IUIAutomation.CreatePropertyCondition` でEdit要素の検索条件作成（ControlType = Edit）
+- [x] `IUIAutomationElement.FindFirst` でアドレスバー要素を検索
+- [x] `IUIAutomationElement.GetCurrentPattern` で `ValuePattern` を取得
+- [x] `IUIAutomationValuePattern.CurrentValue` でURLを取得
+- [x] 関数 `GetChromeURL(hwnd windows.HWND) (string, error)` としてエクスポート
 
 ### 動作確認
-- [ ] Chromeを開いた状態で `./logging.exe` を実行し、URLが取得できることを確認
-- [ ] Chrome以外がアクティブのとき、URLが空文字になることを確認
-- [ ] Chromeが開いていないとき、エラーが適切にハンドリングされることを確認
+- [x] Chromeを開いた状態で `./logging.exe` を実行し、URLが取得できることを確認
+- [x] Chrome以外がアクティブのとき、URLが空文字になることを確認
+- [x] Chromeが開いていないとき、エラーが適切にハンドリングされることを確認
 
-- [ ] `gofmt -w .` を実行してコードをフォーマット
-- [ ] `golangci-lint run` を実行してlintエラーがないことを確認
+### 追加機能: Chrome 全タブタイトル取得
+- [x] `IUIAutomationElementArray` のvtable定義（`get_Length`, `GetElement`）
+- [x] `FindAll` で TabItem(50019) を列挙する実装
+- [x] ウェブコンテンツ内の Tab UI（YouTube フィルタ、X の「おすすめ/フォロー中」等）を除外
+  - Document(50030) の子孫 TabItem を除外セットとして減算するアルゴリズム
+- [x] 関数 `GetChromeTabTitles(hwnd windows.HWND) ([]string, error)` としてエクスポート
+- [x] 複数タブ・複数ウィンドウでの動作確認
 
-**完了条件:** ChromeのアドレスバーのURLが標準出力に表示され、`golangci-lint run` がクリーン。
+- [x] `gofmt -w .` を実行してコードをフォーマット
+- [x] `golangci-lint run` を実行してlintエラーがないことを確認
+
+**完了条件:** ChromeのアドレスバーのURLと全タブタイトルが標準出力に表示され、`golangci-lint run` がクリーン。
 
 ---
 
@@ -187,6 +195,6 @@ logging-go/
 | 1     | プロジェクト初期化           | [x]  |
 | 2     | アクティブウィンドウ + EnumWindows | [x]  |
 | 3     | プロセス名取得               | [x]  |
-| 4     | Chrome URL取得（UI Automation）| [ ]  |
+| 4     | Chrome URL取得（UI Automation）| [x]  |
 | 5     | 統合 + ポーリングループ       | [ ]  |
 | 6     | 品質・最終確認               | [ ]  |
