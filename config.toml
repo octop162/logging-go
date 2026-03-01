@@ -1,6 +1,9 @@
 # ポーリング間隔（秒）
 interval = 5
 
+# ログ出力ディレクトリ（デフォルト: 実行ファイルと同階層の logs）
+log_dir = "logs"
+
 # 除外するプロセス名（完全一致、大文字小文字無視）
 exclude_processes = [
     "TextInputHost.exe",

@@ -1,3 +1,4 @@
 logging.exe
 node_modules/
 .claude/
+logs/

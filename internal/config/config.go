@@ -3,14 +3,25 @@ package config
 import (
 	"errors"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/BurntSushi/toml"
 )
 
+// defaultLogDir は実行ファイルと同階層の "logs" を返す。
+func defaultLogDir() string {
+	exe, err := os.Executable()
+	if err != nil {
+		return "logs"
+	}
+	return filepath.Join(filepath.Dir(exe), "logs")
+}
+
 // Config はアプリケーション設定を保持する。
 type Config struct {
 	Interval         int      `toml:"interval"`          // ポーリング間隔（秒）
+	LogDir           string   `toml:"log_dir"`           // ログ出力ディレクトリ
 	ExcludeProcesses []string `toml:"exclude_processes"` // 除外プロセス名リスト
 	excludeSet       map[string]struct{}
 }
@@ -20,6 +31,7 @@ type Config struct {
 func Load(path string) (*Config, error) {
 	cfg := &Config{
 		Interval: 60,
+		LogDir:   defaultLogDir(),
 	}
 	_, err := toml.DecodeFile(path, cfg)
 	if err != nil {
@@ -31,6 +43,9 @@ func Load(path string) (*Config, error) {
 	}
 	if cfg.Interval <= 0 {
 		cfg.Interval = 60
+	}
+	if cfg.LogDir == "" {
+		cfg.LogDir = defaultLogDir()
 	}
 	cfg.buildExcludeSet()
 	return cfg, nil

@@ -15,16 +15,16 @@
 
 ## チェックリスト
 
-- [ ] `config.toml` と `config.go` に `log_dir` 追加
+- [x] `config.toml` と `config.go` に `log_dir` 追加
   - `Config` 構造体に `LogDir string` フィールド追加
   - `config.toml` に `log_dir = "logs"` を追加
-- [ ] `main.go` を修正
+- [x] `main.go` を修正
   - `--logdir` フラグ追加（設定ファイルより優先）
   - ポーリングループ内で日付チェック → 日付変更時にファイルを閉じて新ファイルを開く
   - ログディレクトリが存在しなければ `os.MkdirAll` で作成
-- [ ] CLAUDE.md の使い方セクション更新
+- [x] CLAUDE.md の使い方セクション更新
   - `--logdir` フラグと出力先の説明を追記
-- [ ] テスト・lint
+- [x] テスト・lint
   - `gofmt -w .`
   - `go test ./...`
   - `golangci-lint run`

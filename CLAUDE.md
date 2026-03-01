@@ -204,6 +204,9 @@ go build -o logging.exe .
 
 # カスタム設定ファイルを指定
 ./logging.exe --config /path/to/config.toml
+
+# ログ出力ディレクトリを指定
+./logging.exe --logdir /path/to/logs
 ```
 
 ### コマンドラインフラグ
@@ -212,12 +215,16 @@ go build -o logging.exe .
 |---|---|---|
 | `--interval` | ポーリング間隔（秒）。設定ファイルより優先 | 60（設定ファイル未指定時） |
 | `--config` | 設定ファイルのパス | 実行ファイルと同階層の `config.toml` |
+| `--logdir` | ログ出力ディレクトリ。設定ファイルより優先 | 実行ファイルと同階層の `logs` |
 
 ### 設定ファイル（config.toml）
 
 ```toml
 # ポーリング間隔（秒）
 interval = 60
+
+# ログ出力ディレクトリ（デフォルト: 実行ファイルと同階層の logs）
+log_dir = "logs"
 
 # 除外するプロセス名（完全一致、大文字小文字無視）
 exclude_processes = [
@@ -229,11 +236,7 @@ exclude_processes = [
 
 ### 出力形式
 
-1行1JSONレコード（JSONL）で標準出力に書き出す。ファイルに保存する場合はリダイレクトを使用:
-
-```bash
-./logging.exe >> activity.jsonl
-```
+1行1JSONレコード（JSONL）で日付ごとのファイルに書き出す。ファイルは `<log_dir>/YYYY-MM-DD.jsonl` に追記される。日付が変わると自動的に新しいファイルにローテーションする。
 
 出力例:
 
