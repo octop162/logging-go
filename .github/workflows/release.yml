@@ -19,7 +19,10 @@ jobs:
       - name: Build
         run: go build -o logging.exe .
 
+      - name: Create zip archive
+        run: Compress-Archive -Path logging.exe, config.toml -DestinationPath logging-rs.zip
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: logging.exe
+          files: logging-rs.zip
