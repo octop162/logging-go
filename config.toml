@@ -1,0 +1,9 @@
+# ポーリング間隔（秒）
+interval = 5
+
+# 除外するプロセス名（完全一致、大文字小文字無視）
+exclude_processes = [
+    "TextInputHost.exe",
+    "Widgets.exe",
+    "SystemSettings.exe",
+]

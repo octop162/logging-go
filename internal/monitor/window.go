@@ -17,9 +17,10 @@ var (
 
 // WindowInfo はウィンドウの情報を保持する。
 type WindowInfo struct {
-	HWND        windows.HWND
-	Title       string
-	ProcessName string
+	HWND        windows.HWND `json:"-"`
+	Title       string       `json:"title"`
+	ProcessName string       `json:"process_name"`
+	URL         string       `json:"url,omitempty"`
 }
 
 // getWindowText は指定した HWND のウィンドウタイトルを返す。
