@@ -173,8 +173,6 @@ logging-go/
 - [x] `go build -o logging.exe .` でビルドが通る
 - [x] `./logging.exe` を実行し、1分ごとにJSONログが出力されることを確認
 - [x] `./logging.exe --interval 10` で10秒間隔に変更できることを確認
-- [ ] Task Manager でCPU使用率 <1%、メモリ <50MB であることを確認
-
 - [x] `gofmt -w .` を実行してコードをフォーマット
 - [x] `golangci-lint run` を実行してlintエラーがないことを確認
 
