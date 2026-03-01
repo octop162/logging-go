@@ -21,6 +21,7 @@ type WindowInfo struct {
 	Title       string       `json:"title"`
 	ProcessName string       `json:"process_name"`
 	URL         string       `json:"url,omitempty"`
+	Tabs        []string     `json:"tabs,omitempty"`
 }
 
 // getWindowText は指定した HWND のウィンドウタイトルを返す。
