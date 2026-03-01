@@ -1,4 +1,11 @@
 #!/bin/sh
+# mainブランチへの直接コミットを禁止
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" = "main" ]; then
+  echo "mainブランチへの直接コミットは禁止です。feature/* または fix/* ブランチで作業してください。"
+  exit 1
+fi
+
 # gofmt check
 UNFORMATTED=$(gofmt -l .)
 if [ -n "$UNFORMATTED" ]; then
