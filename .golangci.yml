@@ -1,17 +1,19 @@
+version: "2"
 linters:
-  enable:
-    - govet
-    - errcheck
-    - staticcheck
-    - unused
-    - gosimple
-    - ineffassign
-    - typecheck
-
-linters-settings:
-  govet:
-    enable:
-      - shadow
-
-issues:
-  exclude-use-default: false
+  settings:
+    govet:
+      enable:
+        - shadow
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
