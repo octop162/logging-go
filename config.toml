@@ -1,5 +1,5 @@
 # ポーリング間隔（秒）
-interval = 5
+interval = 60
 
 # ログ出力ディレクトリ（デフォルト: 実行ファイルと同階層の logs）
 log_dir = "logs"
